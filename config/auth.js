@@ -15,9 +15,9 @@ module.exports = {
 		'callbackURL' 		: 'http://localhost:8080/auth/twitter/callback'
 	},
 	'weiboAuth' : {
-		'clientID' 		: '1670530984',
-		'clientSecret' 	: 'acef48c7157ae6ed8da6954c4fa182ed',
-		'callbackURL' 		: 'http://127.0.0.1:3000/auth/weibo/callback'
+		'clientID' 		: 'your-consumer-key-here',
+		'clientSecret' 		: 'your-client-secret-here',
+		'callbackURL' 		: 'http://localhost:8080/auth/weibo/callback'
 	},
 
 	'googleAuth' : {

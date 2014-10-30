@@ -8,6 +8,7 @@ module.exports = function(app, passport) {
 	app.use(function(req,res,next){
 		res.locals.user=req.user;
 		res.locals.message="";
+		res.locals.messageSuccess='';
 	        next();
 });
 	app.locals.marked=function(content){
@@ -30,7 +31,7 @@ module.exports = function(app, passport) {
 	// show the home page (will also have our login links)
 	app.get('/',function(req, res) {
 		Post.paginate({}, req.query.page, req.query.limit, function(err, pageCount, posts, itemCount) {
-		res.render('index.ejs',{message: req.flash('alert'), pageCount: pageCount, itemCount: itemCount, posts: posts, currentPage: req.query.page
+		res.render('index.ejs',{message: req.flash('alert'), pageCount: pageCount, itemCount: itemCount, posts: posts, currentPage: req.query.page, messageSuccess: req.flash('success')
 });
 	},{sortBy: {created_at: -1}});
 });
@@ -52,7 +53,7 @@ module.exports = function(app, passport) {
 			req.flash('alert','you have been logged in')
 			res.redirect('/')}
 			else{		
-		res.render('login.ejs', {message: req.flash('alert')});
+		res.render('login.ejs', {message: req.flash('alert'),messageSuccess:req.flash('success')});
 }
 		});
 
@@ -67,7 +68,7 @@ module.exports = function(app, passport) {
 		// show the signup form
 		app.get('/signup',getRecentPassages, function(req, res) {
 			checkLoggedIn;
-			res.render('signup.ejs', {message: req.flash('signupMessage') });
+			res.render('signup.ejs', {message: req.flash('signupMessage'),messageSuccess:req.flash('success') });
 		});
 
 		// process the signup form
@@ -153,7 +154,7 @@ module.exports = function(app, passport) {
 		post.tags=req.body.tags.split(' ');
 		post.save(function(err){
 			if(err){
-			req.flash('wrong',"title or content should not be null");
+			req.flash('wrong',"标题和内容不能为空");
 			res.redirect('/new');
 			}
 			else{
@@ -175,7 +176,16 @@ module.exports = function(app, passport) {
 		var user=req.user;
 		user.name=req.body.name;
 		user.save(function(err){
+		if(err){
+		req.flash('alert',"已经有此用户名")
+		res.redirect('back')
+		}
+		else{
+		Post.update({author:req.user._id}, {$set: {username:req.body.name}},{multi: true}, function(err){
+})
+		req.flash('success',"修改用户名成功")
         	res.redirect('/');
+}
 });	
 });
 
@@ -200,7 +210,7 @@ module.exports = function(app, passport) {
 		req.flash('alert','不能编辑别人的文章')
 		res.redirect("back")}
 		else{
-		 res.render("edit.ejs",{post:post, message:req.flash('alert')})
+		 res.render("edit.ejs",{post:post, message:req.flash('alert'),messageSuccess:req.flash('success')})
 	}
 		}
 });
@@ -213,8 +223,10 @@ module.exports = function(app, passport) {
 		Post.update({_id: id},{$set: newmodel},function(err){
 		if(err)
 		res.redirct("back");
-		else
+		else{
+		req.flash('success','创建文章成功')
 		res.redirect("/posts/"+id);
+}
 })
 
 })

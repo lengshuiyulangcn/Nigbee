@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Node Authentication</title>
+  <title>Nigbee</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
   <link rel="stylesheet"  href="/notebox.css">
@@ -21,7 +21,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">node学习笔记</a>
+      <a class="navbar-brand" href="/">Node笔迹</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -50,12 +50,25 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<script>
+  setTimeout(function(){
+  var alert=document.getElementById('alert')
+  if(alert)
+  alert.style.display="none";
+var alert=document.getElementById('alert2')
+  if(alert)
+  alert.style.display="none";}
+  ,1500);
+</script>
 <div class="container">
 <div class="row">
 <div class="col-sm-8">
 <% if (message.length > 0) { %>
-		<div class="alert alert-danger"><%= message %></div>
+		<div class="alert alert-danger" id="alert"><%= message %></div>
 	<% } %>
+  <% if (messageSuccess.length > 0) { %>
+      <div class="alert alert-success" id="alert2"><%= messageSuccess %></div>
+    <% } %>
 <%- body %>
 </div>
 <div class="col-sm-3" style='margin-left: 30px;'>
