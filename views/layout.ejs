@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <title>Node Authentication</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+  <link rel="stylesheet"  href="/notebox.css">
+  <script src="/marked.js" type="text/javascript"></script>
+  <style>
+    /*body 		{ padding-top:80px; }*/
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">node学习笔记</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">资源</a></li>
+        <li><a href="#">about</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <%if(!user){ %>
+            <li><a href="/login"><span class="fa fa-user"></span>登录</a></li>
+            <li><a href="/signup"><span class="fa fa-user"></span>注册</a></li>
+        <%}else{%>
+        <li><a href='/userinfo'><%= user.name %></a></li>
+        <li><a href='/new'><span class="fa fa-pencil"></span>写文章</a></li>
+        <li><a href='/admin'><span class="fa fa-lock"></span>管理</a></li>
+        <li><a href='/logout'><span class="fa fa-warning"></span>登出</a></li>
+        <%}%>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+<div class="row">
+<div class="col-sm-8">
+<% if (message.length > 0) { %>
+		<div class="alert alert-danger"><%= message %></div>
+	<% } %>
+<%- body %>
+</div>
+<div class="col-sm-3" style='margin-left: 30px;'>
+  <div class="rightbox">
+    <h3><span class="fa fa-book"></span>最近文章</h3>
+    <ul>
+      <%passages.forEach(function(post){%>
+    <li>
+    <a href="/posts/<%=String(post._id) %>">
+    <%= post.title %>
+    </a>
+    </li>
+    <%})%>
+    </ul>
+    <h3><span class="fa fa-tags"></span>常用标签</h3>
+    <%tags.forEach(function(tag){%>
+   <a href='/tags/<%=tag._id%>'> <%=tag._id%></a>
+    (<%=tag.count%>)
+    <%})%>
+        <div id='tags'>
+    </div>
+</div>
+</div>
+  <div class="text-center">
+  </div>
+</div>
+</div>
+</body>
+</html>

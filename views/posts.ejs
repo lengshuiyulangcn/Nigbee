@@ -1,0 +1,24 @@
+<div class="container", style='overflow: auto;'>
+<div class='col-sm-8 div3'>
+<center>
+<h4><%=post.title%></h4>
+<div id='meta'>
+  <span class="fa fa-clock-o"></span>
+<%=moment(post.created_at)%>
+<span class="fa fa-user"></span>
+<%=post.username%>
+<span class="fa fa-tags"></span>
+<%post.tags.forEach(function(tag){%>
+  <a href="/tags/<%=tag%>"><%=tag%></a>
+<%})%>
+</div>
+</center>
+<hr>
+<div id='content'>
+<%- marked(post.content)%>
+</div>
+<div  style="position: absolute;bottom: 10px;">
+<a href="/">返回首页</a>
+</div>
+</div>
+</div>

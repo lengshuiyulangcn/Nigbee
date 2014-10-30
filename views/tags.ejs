@@ -1,0 +1,55 @@
+<div class="container", style='overflow: auto;'>
+<% taglists.forEach(function(post){%>
+  <div class='col-sm-8 div3'>
+<center>
+<h4><%=post.title%></h4>
+<div id='meta'>
+  <span class="fa fa-clock-o"></span>
+<%=moment(post.created_at)%>
+<span class="fa fa-user"></span>
+<%=post.username%>
+<span class="fa fa-tags"></span>
+<%post.tags.forEach(function(tag){%>
+  <a href="/tags/<%=tag%>"><%=tag%></a>
+<%})%>
+</div>
+</center>
+<hr>
+<div id='content'>
+<%- marked(truncate(post.content,200))%>
+</div>
+<div  style="position: absolute;bottom: 10px;">
+<a href="/posts/<%=post._id%>">阅读全文</a>
+</div>
+</div>
+<%})%>
+</div>
+<div class='footer'>
+<% if (pageCount > 1) { %>
+<ul class="pagination">
+  <% if (currentPage > 1) { %>
+      <li><a href="/tags/<%=tag%>?page=1"><<</a></li>
+  <% } %>
+  <% var i = 1;
+  if (currentPage > 5) {
+  i = +currentPage - 4;
+  } %>
+  <% if (i !== 1) { %>
+      <li class="disabled"><a href="#">...</a></li>
+  <% } %>
+  <% for (i; i<=pageCount; i++) { %>
+    <% if (currentPage == i) { %>
+        <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
+    <% } else { %>
+        <li><a href="/tags/<%=tag%>/?page=<%= i %>"><%= i %></a></li>
+    <% } %>
+    <% if (i == (+currentPage + 4)) { %>
+        <li class="disabled"><a href="#">...</a></li>
+    <% break; } %>
+  <% } %>
+  <% if (currentPage != pageCount) { %>
+      <li><a href="/tags/<%=tag%>/?page=<%= pageCount %>">>></a></li>
+  <% } %>
+</ul>
+<% } %>
+</div>
